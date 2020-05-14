@@ -27,6 +27,14 @@ namespace console_library.Models
       }
     }
 
+    public void PrintCheckedOut()
+    {
+      for (int i = 0; i < CheckedOut.Count; i++)
+      {
+        Console.WriteLine($"{i+1}) {CheckedOut[i].Title} - {CheckedOut[i].Author}");
+      }
+    }
+
     public void AddBook(Book book)
     {
       Books.Add(book);
@@ -49,6 +57,23 @@ namespace console_library.Models
         Console.WriteLine($"You've checked out {selectedBook.Title}");
         Books.Remove(selectedBook);
       }
+    }
+
+    public void ReturnBook(string selection)
+    {
+      Book selectedBook = ValidateBook(selection, CheckedOut);
+
+      if (selectedBook == null)
+      {
+        System.Console.WriteLine(@"Invalid Selection, Please make a valid selection.");
+        return;
+      }
+
+      selectedBook.Available = true;
+      Books.Add(selectedBook);
+      CheckedOut.Remove(selectedBook);
+      Console.Clear();
+      Console.WriteLine("Successfully Returned Book!");
     }
 
     private Book ValidateBook(string selection, List<Book> bookList)
